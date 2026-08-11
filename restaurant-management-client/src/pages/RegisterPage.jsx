@@ -2,9 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ??
-  "http://127.0.0.1:5000/api";
+const API_BASE_URL = "https://restaurantmanagementsystem-qs1a.onrender.com/api";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
