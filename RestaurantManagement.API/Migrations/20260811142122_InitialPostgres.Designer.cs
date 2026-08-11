@@ -2,9 +2,9 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RestaurantManagement.API.Data;
 
 #nullable disable
@@ -12,8 +12,8 @@ using RestaurantManagement.API.Data;
 namespace RestaurantManagement.API.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    [Migration("20260809082425_AddNormalUserSeed")]
-    partial class AddNormalUserSeed
+    [Migration("20260811142122_InitialPostgres")]
+    partial class InitialPostgres
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,26 +21,26 @@ namespace RestaurantManagement.API.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.29")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
 
@@ -53,19 +53,19 @@ namespace RestaurantManagement.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5d290043-3ada-40df-b04d-8841285dc377",
+                            Id = "23de75b4-38c6-4a23-933b-1cfe2be55ed5",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
-                            Id = "8a5b930f-166c-43cd-a09d-70ae8c2621ea",
+                            Id = "9b3982a4-723b-4c44-acc6-3226227ff16b",
                             Name = "RestaurantAdmin",
                             NormalizedName = "RESTAURANTADMIN"
                         },
                         new
                         {
-                            Id = "d2a48baa-9c68-4908-8d32-528d1bb93599",
+                            Id = "c7c6189d-3139-494f-86b7-65eacd3fb8c7",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -75,19 +75,19 @@ namespace RestaurantManagement.API.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -100,19 +100,19 @@ namespace RestaurantManagement.API.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -124,17 +124,17 @@ namespace RestaurantManagement.API.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("text");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -146,10 +146,10 @@ namespace RestaurantManagement.API.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("text");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("text");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -161,38 +161,38 @@ namespace RestaurantManagement.API.Migrations
                         new
                         {
                             UserId = "5a7c40f5-5d62-4339-8dfa-1e2b0e5e0f1a",
-                            RoleId = "5d290043-3ada-40df-b04d-8841285dc377"
+                            RoleId = "23de75b4-38c6-4a23-933b-1cfe2be55ed5"
                         },
                         new
                         {
                             UserId = "7811c297-d44f-4c9d-8a8b-1f0f2e4a39b3",
-                            RoleId = "8a5b930f-166c-43cd-a09d-70ae8c2621ea"
+                            RoleId = "9b3982a4-723b-4c44-acc6-3226227ff16b"
                         },
                         new
                         {
                             UserId = "d4e96531-b998-4f5d-9c24-a0e1a0f2b4b9",
-                            RoleId = "8a5b930f-166c-43cd-a09d-70ae8c2621ea"
+                            RoleId = "9b3982a4-723b-4c44-acc6-3226227ff16b"
                         },
                         new
                         {
                             UserId = "a1b2c3d4-e5f6-4711-8c9d-0a1b2c3d4e5f",
-                            RoleId = "d2a48baa-9c68-4908-8d32-528d1bb93599"
+                            RoleId = "c7c6189d-3139-494f-86b7-65eacd3fb8c7"
                         });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("text");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Value")
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -202,57 +202,57 @@ namespace RestaurantManagement.API.Migrations
             modelBuilder.Entity("RestaurantManagement.API.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("text");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("boolean");
 
                     b.Property<int?>("RestaurantId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
 
@@ -272,15 +272,15 @@ namespace RestaurantManagement.API.Migrations
                         {
                             Id = "5a7c40f5-5d62-4339-8dfa-1e2b0e5e0f1a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ed7e303b-8be3-4a02-96d7-1953ae5c1626",
+                            ConcurrencyStamp = "b7289b66-e559-4b42-b894-bcaadb4a5572",
                             Email = "superadmin@restaurant.local",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@RESTAURANT.LOCAL",
                             NormalizedUserName = "SUPERADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBBHNKjzp89S4PNHX4GG29OgNKxzkF59wNmJ2X2a6k5E0qK7R54d8530yzhARMms/Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEO3lQXkezu8Kb+vxpTNLi3TlgJKZo59/IXL/rFdNSqjrGH7Hw7LrrP4LDMfU+Fo2kg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7bbbbbf2-ecf0-473e-bc75-a9df4d1d6134",
+                            SecurityStamp = "691ecf37-f3f6-4ae4-b32b-a00179c9402a",
                             TwoFactorEnabled = false,
                             UserName = "SuperAdmin"
                         },
@@ -288,16 +288,16 @@ namespace RestaurantManagement.API.Migrations
                         {
                             Id = "7811c297-d44f-4c9d-8a8b-1f0f2e4a39b3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6fabfa6b-e921-419c-9923-0539749c7602",
+                            ConcurrencyStamp = "0e5f2f15-048b-421c-9c5f-16c29ff45c1e",
                             Email = "restaurant1-admin@restaurant.local",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "RESTAURANT1-ADMIN@RESTAURANT.LOCAL",
                             NormalizedUserName = "RESTAURANTADMIN1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEG/4774dUD5QnE+/EC3Il0SMbC9IRSv37jD6N88AamOZA5JQOu7WGpOHjcoiKrVKpw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEA/Pbi8QiUEWMGkMN7o5dnjpxjb6MPuq9gP9Ag6TIlrv4TBCbUToobZ+SixG1R5Yg==",
                             PhoneNumberConfirmed = false,
                             RestaurantId = 1,
-                            SecurityStamp = "8eaa2b8c-8c8f-4c78-8524-3bd129aa57d5",
+                            SecurityStamp = "5c3ef312-e2dd-4eff-b163-3986aad53b62",
                             TwoFactorEnabled = false,
                             UserName = "RestaurantAdmin1"
                         },
@@ -305,16 +305,16 @@ namespace RestaurantManagement.API.Migrations
                         {
                             Id = "d4e96531-b998-4f5d-9c24-a0e1a0f2b4b9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "11a5dadc-4c6b-43ae-8a59-115617f894f0",
+                            ConcurrencyStamp = "fc4ed2c3-f6f0-4970-b121-f987a8e9aeea",
                             Email = "restaurant2-admin@restaurant.local",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "RESTAURANT2-ADMIN@RESTAURANT.LOCAL",
                             NormalizedUserName = "RESTAURANTADMIN2",
-                            PasswordHash = "AQAAAAIAAYagAAAAEL98xwxAGAsju5l6IQJ/kUPkimak5nTQCcwg+gPqjE4YK6EvrUyC3peVckKiV/RCbA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAgKYp7NOya+axjsIduj3DnqvUf570iOTlKt9/lKDQiBv7MkmvyB/mQrbvnn5zZs6A==",
                             PhoneNumberConfirmed = false,
                             RestaurantId = 2,
-                            SecurityStamp = "feb3edfb-0b35-4b3a-a88d-8ae889cdea53",
+                            SecurityStamp = "b39c9622-530b-4d13-be8e-5461d8130f9a",
                             TwoFactorEnabled = false,
                             UserName = "RestaurantAdmin2"
                         },
@@ -322,15 +322,15 @@ namespace RestaurantManagement.API.Migrations
                         {
                             Id = "a1b2c3d4-e5f6-4711-8c9d-0a1b2c3d4e5f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a7a8c8f8-0e06-44ae-86e9-967783c69d88",
+                            ConcurrencyStamp = "78032653-1575-4d85-9e70-5ae9f1d99c0d",
                             Email = "user@restaurant.local",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@RESTAURANT.LOCAL",
                             NormalizedUserName = "USER1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHEXa43W3HxYRdnIWA4TH8fueOxNaBy/MEevTaFZX4d0c5r+LNQfJXh6R8cgKxxKaQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHL74gJ25qX527RHbOXdDKoUAAiEXpiPvf0loPtCKL1/4Kr+NVb79TV1Q2+8Rdy1PQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a5ffd625-b59d-4f1a-b424-1eb73dd33fe4",
+                            SecurityStamp = "0bd0c59e-8168-4eab-a31b-8f870e9606d7",
                             TwoFactorEnabled = false,
                             UserName = "User1"
                         });
@@ -340,19 +340,19 @@ namespace RestaurantManagement.API.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("MenuItemId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -368,57 +368,95 @@ namespace RestaurantManagement.API.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsAvailable")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("numeric");
 
                     b.Property<int>("RestaurantId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("RestaurantId");
 
                     b.ToTable("MenuItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Fresh greens with vinaigrette",
+                            IsAvailable = true,
+                            Name = "Riverside Salad",
+                            Price = 8.99m,
+                            RestaurantId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Served with seasonal vegetables",
+                            IsAvailable = true,
+                            Name = "River Grilled Salmon",
+                            Price = 18.50m,
+                            RestaurantId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "House special sandwich",
+                            IsAvailable = true,
+                            Name = "City Garden Sandwich",
+                            Price = 9.75m,
+                            RestaurantId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Local roast coffee",
+                            IsAvailable = true,
+                            Name = "Garden Latte",
+                            Price = 3.50m,
+                            RestaurantId = 2
+                        });
                 });
 
             modelBuilder.Entity("RestaurantManagement.API.Models.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("RestaurantId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("Status")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("numeric");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -433,21 +471,21 @@ namespace RestaurantManagement.API.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("MenuItemId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("OrderId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<decimal>("UnitPrice")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
@@ -462,20 +500,20 @@ namespace RestaurantManagement.API.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
