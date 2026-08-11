@@ -1,0 +1,58 @@
+# ================================
+# .NET
+# ================================
+**/bin/
+**/obj/
+**/.vs/
+
+# ================================
+# Node / React
+# ================================
+**/node_modules/
+**/dist/
+**/.vite/
+
+# ================================
+# Environment / secrets
+# ================================
+.env
+.env.*
+!.env.example
+
+**/appsettings.Local.json
+**/appsettings.Production.json
+
+# Keep local appsettings out of Git
+RestaurantManagement.API/appsettings.json
+
+# ================================
+# Local/test credentials and data
+# ================================
+admin1.json
+admin1.txt
+body.json
+super.json
+super.txt
+user1.json
+user1.txt
+verify_backend.ps1
+
+# ================================
+# Logs
+# ================================
+*.log
+
+# ================================
+# OS files
+# ================================
+.DS_Store
+Thumbs.db
+
+
+# Local test/debug scripts
+RestaurantManagement.API/debug_update_status.ps1
+RestaurantManagement.API/e2e_test.ps1
+RestaurantManagement.API/debug_cart.ps1
+
+# Local development configuration
+RestaurantManagement.API/appsettings.Development.json

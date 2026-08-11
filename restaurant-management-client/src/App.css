@@ -1,0 +1,633 @@
+﻿:root {
+  --text: #6b6375;
+  --text-h: #08060d;
+  --bg: #fff;
+  --border: #e5e4e7;
+  --code-bg: #f4f3ec;
+  --accent: #aa3bff;
+  --accent-bg: rgba(170, 59, 255, 0.1);
+  --accent-border: rgba(170, 59, 255, 0.5);
+  --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: 0.18px;
+  color: var(--text);
+  background: var(--bg);
+  font-size: 18px;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+#root {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  text-align: center;
+  border-inline: 1px solid var(--border);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1,
+h2 {
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+h1 {
+  font-size: 40px;
+  margin: 0 0 16px;
+}
+
+p {
+  margin: 0;
+}
+
+.page {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  padding: 24px;
+  text-align: left;
+}
+
+.section {
+  margin-bottom: 24px;
+}
+
+.card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+
+.list-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+button,
+.primary-button {
+  border: none;
+  background: var(--accent);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: white;
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-bar nav,
+.nav-actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.nav-bar a {
+  color: var(--text-h);
+  text-decoration: none;
+}
+
+.nav-logo a {
+  font-weight: 700;
+}
+
+.auth-page {
+  display: grid;
+  min-height: calc(100vh - 90px);
+  place-items: center;
+}
+
+.auth-page .card {
+  width: min(420px, 100%);
+}
+
+.auth-page form {
+  display: grid;
+  gap: 16px;
+}
+
+.auth-page label {
+  display: grid;
+  gap: 8px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.auth-page input,
+input[type="number"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.form-error {
+  color: #dc2626;
+}
+
+.order-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+@media (max-width: 1024px) {
+  #root {
+    border: none;
+  }
+
+  #root,
+  .page {
+    padding: 16px;
+  }
+}
+
+/* =========================================================
+   LOGIN & SIGN UP PAGE STYLING ONLY
+   ========================================================= */
+
+/* Login / Register page container */
+.auth-page {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 70px 20px 60px;
+  background: #ffffff;
+}
+
+/* Authentication card */
+.auth-page .card {
+  width: min(480px, 100%);
+  padding: 36px 40px;
+  background: #ffffff;
+  border: 1px solid #e5e4e7;
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  text-align: left;
+}
+
+/* Authentication heading */
+.auth-page h1 {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 600;
+  margin: 0 0 10px;
+  color: #08060d;
+}
+
+/* Subtitle */
+.auth-page > .card > p,
+.auth-page .card > p {
+  text-align: center;
+  color: #6b6375;
+  font-size: 15px;
+  margin-bottom: 28px;
+}
+
+/* Form layout */
+.auth-page form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Labels */
+.auth-page form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #08060d;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+}
+
+/* Inputs */
+.auth-page form input {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  border: 1px solid #d9d6df;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #08060d;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Input focus */
+.auth-page form input:focus {
+  border-color: #aa3bff;
+  box-shadow: 0 0 0 3px rgba(170, 59, 255, 0.12);
+}
+
+/* Placeholder */
+.auth-page form input::placeholder {
+  color: #9a94a3;
+}
+
+/* Error message */
+.auth-page .error,
+.auth-page .form-error {
+  margin: -4px 0 0;
+  color: #dc2626;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Submit button */
+.auth-page form button {
+  width: 100%;
+  height: 46px;
+  margin-top: 4px;
+  border: none;
+  border-radius: 10px;
+  background: #aa3bff;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+/* Button hover */
+.auth-page form button:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+/* Button disabled */
+.auth-page form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Login/Register navigation text */
+.auth-page .auth-link {
+  margin-top: 22px;
+  text-align: center;
+  font-size: 14px;
+  color: #6b6375;
+}
+
+/* Links */
+.auth-page a {
+  color: #8f2be2;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-page a:hover {
+  text-decoration: underline;
+}
+
+/* =========================================================
+   FALLBACK STYLING
+   Works even if the current Login/Register JSX doesn't
+   have the auth-page class.
+   ========================================================= */
+
+/* Register page */
+main:has(input[placeholder="Enter username"]) {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 70px 20px;
+}
+
+main:has(input[placeholder="Enter username"]) form {
+  width: min(480px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+main:has(input[placeholder="Enter username"]) form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: left;
+}
+
+main:has(input[placeholder="Enter username"]) form input {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  border: 1px solid #d9d6df;
+  border-radius: 10px;
+  font-size: 15px;
+  outline: none;
+}
+
+main:has(input[placeholder="Enter username"]) form input:focus {
+  border-color: #aa3bff;
+  box-shadow: 0 0 0 3px rgba(170, 59, 255, 0.12);
+}
+
+main:has(input[placeholder="Enter username"]) form button {
+  width: 100%;
+  height: 46px;
+  margin-top: 4px;
+  border-radius: 10px;
+  background: #aa3bff;
+  color: white;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .auth-page {
+    padding: 40px 16px;
+  }
+
+  .auth-page .card {
+    padding: 28px 22px;
+  }
+
+  .auth-page h1 {
+    font-size: 30px;
+  }
+
+  main:has(input[placeholder="Enter username"]) {
+    padding: 40px 16px;
+  }
+}
+
+/* =========================================================
+   LOGIN PAGE
+   ========================================================= */
+
+.auth-card {
+  width: min(440px, 100%);
+  padding: 36px 40px;
+  box-sizing: border-box;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.auth-header h1 {
+  margin: 0 0 10px;
+  font-size: 38px;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.auth-header p {
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.auth-card label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-h);
+  text-align: left;
+}
+
+.auth-card input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: white;
+  color: var(--text-h);
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-card input::placeholder {
+  color: #9b96a3;
+}
+
+.auth-card input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.auth-submit {
+  width: 100%;
+  margin-top: 4px;
+  padding: 13px 16px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  background: var(--accent);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.2s ease;
+}
+
+.auth-submit:hover {
+  opacity: 0.92;
+}
+
+.auth-submit:active {
+  transform: scale(0.98);
+}
+
+.auth-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-card .form-error {
+  margin: -4px 0 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #fef2f2;
+  color: #dc2626;
+  font-size: 14px;
+  text-align: center;
+}
+
+.auth-footer {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.auth-footer p {
+  font-size: 15px;
+}
+
+.auth-footer a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   LOGIN / REGISTER RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .auth-page {
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .auth-card {
+    padding: 28px 22px;
+  }
+
+  .auth-header h1 {
+    font-size: 32px;
+  }
+}
+
+/* Center login form perfectly on the screen */
+.auth-page {
+  width: 100%;
+  min-height: calc(100vh - 90px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+.auth-card {
+  width: min(440px, 100%);
+  margin: 0 auto;
+  padding: 36px 40px;
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   ADMIN ORDERS PAGE
+   ========================================================= */
+
+.list-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(280px, 1fr));
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.list-grid .card {
+  min-width: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Order card content */
+.list-grid .card h2,
+.list-grid .card h3 {
+  margin-top: 0;
+  word-break: break-word;
+}
+
+/* Order action buttons */
+.list-grid .card .card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.list-grid .card .card-actions button {
+  flex: 1 1 auto;
+  min-width: 80px;
+  white-space: normal;
+  line-height: 1.2;
+  padding: 10px 12px;
+  box-sizing: border-box;
+}
+
+/* Keep order text inside the card */
+.list-grid .card p,
+.list-grid .card li {
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .list-grid {
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+  .list-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .list-grid .card .card-actions {
+    flex-direction: column;
+  }
+
+  .list-grid .card .card-actions button {
+    width: 100%;
+  }
+}
