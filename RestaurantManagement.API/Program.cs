@@ -10,31 +10,36 @@ using RestaurantManagement.API.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // ======================================================
-// API URLs
+// API URLS
 // ======================================================
 
-builder.WebHost.UseUrls(
-    "http://127.0.0.1:5000",
-    "http://localhost:5168"
-);
+// Render provides the PORT environment variable.
+// Locally, we use port 5000 if PORT is not available.
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 // ======================================================
 // DATABASE
 // ======================================================
 
+// Production:
+// Set RestaurantDatabase in Render Environment Variables.
+//
+// Local:
+// If no environment variable is provided, this fallback
+// connection string is used.
 var connectionString =
     builder.Configuration.GetConnectionString("RestaurantDatabase")
-    ?? "server=127.0.0.1;port=3307;database=restaurant_management;user=root;password=1234;";
-
-var serverVersion = ServerVersion.Parse("8.0.33-mysql");
+    ?? Environment.GetEnvironmentVariable("RestaurantDatabase")
+    ?? "Host=localhost;Port=5432;Database=restaurant_management;Username=postgres;Password=1234;";
 
 builder.Services.AddDbContext<RestaurantContext>(options =>
-    options.UseMySql(
+    options.UseNpgsql(
         connectionString,
-        serverVersion,
-        mysqlOptions =>
+        npgsqlOptions =>
         {
-            mysqlOptions.EnableRetryOnFailure();
+            npgsqlOptions.EnableRetryOnFailure();
         }
     )
 );
@@ -62,14 +67,17 @@ var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 
 var secretKey =
     jwtSettings["Secret"]
+    ?? Environment.GetEnvironmentVariable("JWT_SECRET")
     ?? "RestaurantManagementSecretKey12345";
 
 var issuer =
     jwtSettings["Issuer"]
+    ?? Environment.GetEnvironmentVariable("JWT_ISSUER")
     ?? "RestaurantManagementAPI";
 
 var audience =
     jwtSettings["Audience"]
+    ?? Environment.GetEnvironmentVariable("JWT_AUDIENCE")
     ?? "RestaurantManagementClient";
 
 // ======================================================
@@ -86,7 +94,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-    options.RequireHttpsMetadata = false;
+    options.RequireHttpsMetadata = true;
     options.SaveToken = true;
 
     options.TokenValidationParameters =
@@ -119,15 +127,26 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowReactLocalhost", policy =>
+    options.AddPolicy("AllowFrontend", policy =>
     {
+        var frontendUrl =
+            Environment.GetEnvironmentVariable("FRONTEND_URL");
+
         policy
             .WithOrigins(
                 "http://localhost:5173",
                 "http://localhost:5174",
                 "http://127.0.0.1:5173",
                 "http://127.0.0.1:5174"
-            )
+            );
+
+        // Add Render frontend URL if provided
+        if (!string.IsNullOrWhiteSpace(frontendUrl))
+        {
+            policy.WithOrigins(frontendUrl);
+        }
+
+        policy
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -166,21 +185,16 @@ var app = builder.Build();
 // SWAGGER
 // ======================================================
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// Enable Swagger in both Development and Production.
+// This makes it easier to test the deployed API.
+app.UseSwagger();
+app.UseSwaggerUI();
 
 // ======================================================
 // MIDDLEWARE
 // ======================================================
 
-// React frontend can communicate with the API
-app.UseCors("AllowReactLocalhost");
-
-// We are using HTTP locally, so don't redirect to HTTPS.
-// app.UseHttpsRedirection();
+app.UseCors("AllowFrontend");
 
 app.UseAuthentication();
 app.UseAuthorization();
